@@ -1,35 +1,50 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
-<h:head>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+>
+  <h:head>
     <title>Budget Specialist</title>
-</h:head>
-<h:body>
+  </h:head>
+  <h:body>
     <h:form id="budgetForm">
-        <h:panelGrid columns="2">
-            Category: <h:selectOneMenu value="#{budgetBean.category}" onChangeEvent="#{budgetBean.categorySelectAction}">
-                <f:selectItems value="#{budgetBean.budgetCategories}" var="category" itemValue="#{category}" itemLabel="#{category}" />
-            </h:selectOneMenu>
-            <h:panelGrid rendered="#{budgetBean.category != null}">
-                Item: <h:inputText value="#{budgetBean.item}" />
-                Amount: <h:inputText value="#{budgetBean.amount}" />
-            </h:panelGrid>
-        </h:panelGrid>
-        <h:commandButton value="Add Entry" action="#{budgetBean.addEntry}">
-            <f:ajax execute="@form" render="@form entryTable" />
-        </h:commandButton>
+      <h:panelGrid columns="2">
+        Category:
+        <h:selectOneMenu
+          value="#{budgetBean.category}"
+        >
+          <f:selectItems
+            value="#{budgetBean.budgetCategories}"
+            var="category"
+            itemValue="#{category}"
+            itemLabel="#{category}"
+          />
+          <f:ajax render="@form" />
+        </h:selectOneMenu>
+        <h:outputText value="Item:" rendered="#{budgetBean.category != null}" />
+        <h:inputText value="#{budgetBean.item}" rendered="#{budgetBean.category != null}" />
+        <h:outputText value="Amount:" rendered="#{budgetBean.category != null}" />
+        <h:inputText value="#{budgetBean.amount}" rendered="#{budgetBean.category != null}" />
+      </h:panelGrid>
+      <h:commandButton value="Add Entry" action="#{budgetBean.addEntry}">
+        <f:ajax execute="@form" render="@form entryTable" />
+      </h:commandButton>
     </h:form>
     <h:dataTable id="entryTable" value="#{budgetBean.entries}" var="entry">
-        <h:column>
-            <f:facet name="header">Item</f:facet>
-            #{entry.item}
-        </h:column>
-        <h:column>
-            <f:facet name="header">Amount</f:facet>
-            #{entry.amount}
-        </h:column>
+      <h:column>
+        <f:facet name="header">Category</f:facet>
+        #{entry.category}
+      </h:column>
+      <h:column>
+        <f:facet name="header">Item</f:facet>
+        #{entry.item}
+      </h:column>
+      <h:column>
+        <f:facet name="header">Amount</f:facet>
+        #{entry.amount}
+      </h:column>
     </h:dataTable>
-</h:body>
+  </h:body>
 </html>

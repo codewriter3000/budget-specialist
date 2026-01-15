@@ -22,7 +22,9 @@ public class BudgetBean implements Serializable {
     private BigDecimal amount;
 
     public String addEntry() {
-        service.addEntry(new BudgetEntry(item, amount));
+        BudgetEntry entry = new BudgetEntry(item, amount);
+        entry.setCategory(category);
+        service.addEntry(entry);
         item = null;
         amount = null;
         category = null;
@@ -38,9 +40,4 @@ public class BudgetBean implements Serializable {
     public void setItem(String item) { this.item = item; }
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
-
-    public String categorySelectAction(ValueChangeEvent evt) {
-        System.out.println("Category has been selected");
-        return "";
-    }
 }
