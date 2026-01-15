@@ -4,16 +4,19 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class BudgetEntry implements Serializable {
-    private String category;
+    private String item;
     private BigDecimal amount;
+    private BudgetCategory category;
 
     public BudgetEntry() {}
-    public BudgetEntry(String category, BigDecimal amount) {
-        this.category = category;
+    public BudgetEntry(String item, BigDecimal amount) {
+        this.item = item;
         this.amount = amount;
     }
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public BudgetCategory getCategory() { return category; }
+    public void setCategory(BudgetCategory category) { this.category = category; }
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
+    public String getItem() { return item; }
+    public void setItem(String item) { this.item = item; }
 }

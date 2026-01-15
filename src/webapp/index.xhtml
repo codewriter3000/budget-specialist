@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:head>
     <title>Budget Specialist</title>
 </h:head>
 <h:body>
-    <h:form>
+    <h:form id="budgetForm">
         <h:panelGrid columns="2">
-            Category: <h:inputText value="#{budgetBean.category}" />
-            Amount: <h:inputText value="#{budgetBean.amount}" />
+            Category: <h:selectOneMenu value="#{budgetBean.category}" onChangeEvent="#{budgetBean.categorySelectAction}">
+                <f:selectItems value="#{budgetBean.budgetCategories}" var="category" itemValue="#{category}" itemLabel="#{category}" />
+            </h:selectOneMenu>
+            <h:panelGrid rendered="#{budgetBean.category != null}">
+                Item: <h:inputText value="#{budgetBean.item}" />
+                Amount: <h:inputText value="#{budgetBean.amount}" />
+            </h:panelGrid>
         </h:panelGrid>
-        <h:commandButton value="Add Entry" action="#{budgetBean.addEntry}" />
+        <h:commandButton value="Add Entry" action="#{budgetBean.addEntry}">
+            <f:ajax execute="@form" render="@form entryTable" />
+        </h:commandButton>
     </h:form>
-    <h:dataTable value="#{budgetBean.entries}" var="entry">
+    <h:dataTable id="entryTable" value="#{budgetBean.entries}" var="entry">
         <h:column>
-            #{entry.category}
+            <f:facet name="header">Item</f:facet>
+            #{entry.item}
         </h:column>
         <h:column>
+            <f:facet name="header">Amount</f:facet>
             #{entry.amount}
         </h:column>
     </h:dataTable>

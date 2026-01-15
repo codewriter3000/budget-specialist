@@ -1,10 +1,13 @@
 package web;
 
 import model.BudgetEntry;
+import model.BudgetCategory;
 import service.BudgetService;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ValueChangeEvent;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,19 +16,31 @@ import java.util.List;
 @SessionScoped
 public class BudgetBean implements Serializable {
     private BudgetService service = new BudgetService();
-    private String category;
+    private BudgetCategory[] budgetCategories = BudgetCategory.values();
+    private BudgetCategory category;
+    private String item;
     private BigDecimal amount;
 
-    public void addEntry() {
-        service.addEntry(new BudgetEntry(category, amount));
-        category = null;
+    public String addEntry() {
+        service.addEntry(new BudgetEntry(item, amount));
+        item = null;
         amount = null;
+        category = null;
+        return null;
     }
     public List<BudgetEntry> getEntries() {
         return service.getEntries();
     }
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public BudgetCategory[] getBudgetCategories() { return budgetCategories; }
+    public BudgetCategory getCategory() { return category; }
+    public void setCategory(BudgetCategory category) { this.category = category; }
+    public String getItem() { return item; }
+    public void setItem(String item) { this.item = item; }
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
+
+    public String categorySelectAction(ValueChangeEvent evt) {
+        System.out.println("Category has been selected");
+        return "";
+    }
 }
