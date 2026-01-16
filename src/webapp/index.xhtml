@@ -8,6 +8,12 @@
   <h:head>
     <title>Budget Specialist</title>
   </h:head>
+  <style>
+    .img-btn {
+      width: 5%;
+      height: auto;
+    }
+  </style>
   <h:body>
     <h:form id="budgetForm">
       <h:panelGrid columns="2">
@@ -29,22 +35,29 @@
         <h:inputText value="#{budgetBean.amount}" rendered="#{budgetBean.category != null}" />
       </h:panelGrid>
       <h:commandButton value="Add Entry" action="#{budgetBean.addEntry}">
-        <f:ajax execute="@form" render="@form entryTable" />
+        <f:ajax execute="@form" render="@form manageBudgetEntriesForm:entryTable" />
       </h:commandButton>
     </h:form>
-    <h:dataTable id="entryTable" value="#{budgetBean.entries}" var="entry">
-      <h:column>
-        <f:facet name="header">Category</f:facet>
-        #{entry.category}
-      </h:column>
-      <h:column>
-        <f:facet name="header">Item</f:facet>
-        #{entry.item}
-      </h:column>
-      <h:column>
-        <f:facet name="header">Amount</f:facet>
-        #{entry.amount}
-      </h:column>
-    </h:dataTable>
+    <h:form id="manageBudgetEntriesForm">
+      <h:dataTable id="entryTable" value="#{budgetBean.entries}" var="entry">
+        <h:column>
+          <f:facet name="header">Category</f:facet>
+          #{entry.category}
+        </h:column>
+        <h:column>
+          <f:facet name="header">Item</f:facet>
+          #{entry.item}
+        </h:column>
+        <h:column>
+          <f:facet name="header">Amount</f:facet>
+          #{entry.amount}
+        </h:column>
+        <h:column>
+          <h:commandButton image="./resources/trashcan.svg" action="#{budgetBean.deleteEntry(entry)}" styleClass="img-btn">
+            <f:ajax execute="@this" render="entryTable" />
+          </h:commandButton>
+        </h:column>
+      </h:dataTable>
+    </h:form>
   </h:body>
 </html>

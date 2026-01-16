@@ -30,6 +30,12 @@ public class BudgetBean implements Serializable {
         category = null;
         return null;
     }
+
+    public void deleteEntry(BudgetEntry entry) {
+        System.out.println(entry.toString());
+        service.getEntries().remove(entry);
+    }
+
     public List<BudgetEntry> getEntries() {
         return service.getEntries();
     }
