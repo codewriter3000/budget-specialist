@@ -21,6 +21,9 @@ public class BudgetBean implements Serializable {
     private String item;
     private BigDecimal amount;
 
+		private boolean deleteItemFlag;
+		private BudgetEntry selectedEntry;
+
     public String addEntry() {
         BudgetEntry entry = new BudgetEntry(item, amount);
         entry.setCategory(category);
@@ -31,9 +34,11 @@ public class BudgetBean implements Serializable {
         return null;
     }
 
-    public void deleteEntry(BudgetEntry entry) {
-        System.out.println(entry.toString());
-        service.getEntries().remove(entry);
+    public void deleteSelectedEntry() {
+        service.getEntries().remove(selectedEntry);
+
+				// Closes the delete modal
+				this.setDeleteItemFlag(false);
     }
 
     public List<BudgetEntry> getEntries() {
@@ -46,4 +51,11 @@ public class BudgetBean implements Serializable {
     public void setItem(String item) { this.item = item; }
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
+		public boolean getDeleteItemFlag() { return this.deleteItemFlag; }
+		public void setDeleteItemFlag(boolean deleteItemFlag) { this.deleteItemFlag = deleteItemFlag; }
+		public void initiateDeleteEntryPopup(BudgetEntry selectedEntry) {
+			this.selectedEntry = selectedEntry;
+			setDeleteItemFlag(true);
+		}
+		public BudgetEntry getSelectedEntry() { return this.selectedEntry; }
 }

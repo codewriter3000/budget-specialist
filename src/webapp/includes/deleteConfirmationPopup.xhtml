@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://w3.org/1999/xhtml"
+									xmlns:ui="http://java.sun.com/jsf/facelets"
+									xmlns:f="http://java.sun.com/jsf/core"
+									xmlns:h="http://java.sun.com/jsf/html">
+	<div class="modal-content" style="width: 800px; height: 300px;">
+		<div class="modal-header">
+			<span>Delete Confirmation</span>
+			<h:commandButton image="./resources/close--outline.svg" action="#{budgetBean.setDeleteItemFlag(false)}" styleClass="img-btn">
+				<f:ajax execute="@this" render="@form" />
+			</h:commandButton>
+		</div>
+		<div class="modal-body">
+			Are you sure you want to delete <h:outputText value="#{budgetBean.selectedEntry.item}" />?
+			<br />
+			<h:commandButton value="Yes" action="#{budgetBean.deleteSelectedEntry()}">
+				<f:ajax execute="@this" render="@form manageBudgetEntriesForm" />
+			</h:commandButton>
+			<h:commandButton value="No" action="#{budgetBean.setDeleteItemFlag(false)}">
+				<f:ajax execute="@this" render="@form" />
+			</h:commandButton>
+		</div>
+	</div>
+</ui:composition>

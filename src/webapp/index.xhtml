@@ -1,26 +1,22 @@
 <!DOCTYPE html>
 <html
   xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:h="http://xmlns.jcp.org/jsf/html"
   xmlns:f="http://xmlns.jcp.org/jsf/core"
-  xmlns:c="http://java.sun.com/jsp/jstl/core"
 >
   <h:head>
     <title>Budget Specialist</title>
   </h:head>
-  <style>
-    .img-btn {
-      width: 5%;
-      height: auto;
-    }
-  </style>
-  <h:body>
+	<link rel="stylesheet" href="./style.css" />
+  <h:body style="height: 100%;">
     <h:form id="budgetForm">
       <h:panelGrid columns="2">
         Category:
         <h:selectOneMenu
           value="#{budgetBean.category}"
         >
+					<f:selectItem itemValue="#{null}" itemLabel="-- Select One --" noSelectionOption="true" />
           <f:selectItems
             value="#{budgetBean.budgetCategories}"
             var="category"
@@ -38,6 +34,11 @@
         <f:ajax execute="@form" render="@form manageBudgetEntriesForm:entryTable" />
       </h:commandButton>
     </h:form>
+		<h:form id="deletePopupModal" layout="block">
+			<h:panelGroup styleClass="modal-overlay" rendered="#{budgetBean.deleteItemFlag}">
+				<ui:include src="./includes/deleteConfirmationPopup.xhtml" />
+			</h:panelGroup>
+		</h:form>
     <h:form id="manageBudgetEntriesForm">
       <h:dataTable id="entryTable" value="#{budgetBean.entries}" var="entry">
         <h:column>
@@ -53,8 +54,8 @@
           #{entry.amount}
         </h:column>
         <h:column>
-          <h:commandButton image="./resources/trashcan.svg" action="#{budgetBean.deleteEntry(entry)}" styleClass="img-btn">
-            <f:ajax execute="@this" render="entryTable" />
+          <h:commandButton image="./resources/trashcan.svg" action="#{budgetBean.initiateDeleteEntryPopup(entry)}" styleClass="img-btn">
+            <f:ajax execute="@this" render=":deletePopupModal" />
           </h:commandButton>
         </h:column>
       </h:dataTable>
